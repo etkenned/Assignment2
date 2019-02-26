@@ -79,11 +79,11 @@ void Modes::randomMap()// not done
       double random = rand() % 1;
       if(random < popDensity)
       {
-        mapA[i][j] = "X";
+        mapA[i][j] = 'X';
       }
       else
       {
-        mapA[i][j] = "~";
+        mapA[i][j] = '~';
       }
     }
   }
@@ -125,28 +125,277 @@ void Modes::provideMap() //takes the file name as an input and sets mapA to the 
     }
   }
 }
-void Modes::Classic()
+void Modes::Classic() // runs classic mode of Game of Life for 1 genoration
 {
-  while(true)
+  for(int i = 0; i < mapHeight; i++)
   {
-    
+    for(int j = 0; j < mapWidth; j++)
+    {
+      //check for neighabors
+      if(checkNeighborClassic(i,j) <= 1)
+      {
+        mapB[i][j] = '~';
+      }
+      else if(checkNeighborClassic(i,j) == 3)
+      {
+        mapB[i][j] = 'X';
+      }
+      else if(checkNeighborClassic(i,j) >= 4)
+      {
+        mapB[i][j] = '~';
+      }
+    }
   }
+
 }
+
 void Modes::Doughnut()
 {
-
+  for(int i = 0; i < mapHeight; i++)
+  {
+    for(int j = 0; j < mapWidth; j++)
+    {
+      //check for neighabors
+      if(checkNeighborDoughnut(i,j) <= 1)
+      {
+        mapB[i][j] = '~';
+      }
+      else if(checkNeighborDoughnut(i,j) == 3)
+      {
+        mapB[i][j] = 'X';
+      }
+      else if(checkNeighborDoughnut(i,j) >= 4)
+      {
+        mapB[i][j] = '~';
+      }
+    }
+  }
 }
+
 void Modes::Mirror()
 {
-
+  for(int i = 0; i < mapHeight; i++)
+  {
+    for(int j = 0; j < mapWidth; j++)
+    {
+      //check for neighabors
+      if(checkNeighborMirror(i,j) <= 1)
+      {
+        mapB[i][j] = '~';
+      }
+      else if(checkNeighborMirror(i,j) == 3)
+      {
+        mapB[i][j] = 'X';
+      }
+      else if(checkNeighborMirror(i,j) >= 4)
+      {
+        mapB[i][j] = '~';
+      }
+    }
+  }
 }
-int Modes::checkNeighborClassic(int cellHeight, int cellWidth) // 1 neighbor == empty, 2 == stable(stays the same), 3 == gain cell if empty and keep if not, 4 == cell dies
-{
 
+int Modes::checkNeighborClassic(int cellHeight, int cellWidth) // 0-1 neighbor == empty, 2 == stable(stays the same), 3 == gain cell if empty and keep if not, 4+ == cell dies
+{
+  int numNeighbor = 0;// keeps track of the number of neighaboring cells
+  if(cellHeight == 0)//check if the cell is at the top of the grid
+  {
+    if(cellWidth == 0)//check if the cell is at the top left corner
+    {
+      if(mapB[cellHeight + 1][cellWidth] == 'X')//cell below
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      {
+        numNeighbor++;
+      }
+    }
+    else if(cellWidth == mapWidth - 1)//check if the cell is at the top right corner
+    {
+      if(mapB[cellHeight][cellWidth - 1] == 'X') //cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight + 1][cellWidth] == 'X')//cell below
+      {
+        numNeighbor++;
+      }
+    }
+    else //cell is along the top wall of the map but not in a corner
+    {
+      if(mapB[cellHeight][cellWidth - 1] == 'X') //cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      {
+        numNeighbor++;
+      }
+    }
+  }
+  else if(cellHeight == mapHeight - 1) //checks if cell is at the bottom of the grid
+  {
+    if(cellWidth == 0)//check if the cell is at the bottom left corner
+    {
+      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top right
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+      {
+        numNeighbor++;
+      }
+    }
+    else if(cellWidth == mapWidth - 1)//checks if the cell is at the bottom right corner
+    {
+      if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+      {
+        numNeighbor++;
+      }
+    }
+    else//cell is along the bottom of the map but not in a corner
+    {
+      if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top right
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+      {
+        numNeighbor++;
+      }
+    }
+    return numNeighbor;
+  }
+  else if(cellWidth == 0)//check if the cell is on the left wall
+  {
+    if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top rIght
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+    {
+      numNeighbor++;
+    }
+  }
+  else if(cellWidth == mapWidth - 1)//check if the celll is on the right wall
+  {
+    if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+    {
+      numNeighbor++;
+    }
+  }
+  else //cell is not along any of the edges of the grid
+  {
+    if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top rIght
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+    {
+      numNeighbor++;
+    }
+    if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+    {
+      numNeighbor++;
+    }
+  }
 }
 int Modes::checkNeighborDoughnut(int cellHeight, int cellWidth)
 {
-
+  
 }
 int Modes::checkNeighborMirror(int cellHeight, int cellWidth)
 {

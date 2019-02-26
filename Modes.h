@@ -11,6 +11,8 @@ class Modes
     string *mapB;
     int mapHeight;
     int mapWidth;
+    string pause; // used to pause the simulation
+    bool stabilizes;
     void randomMap();
     void provideMap();
     void Classic();
