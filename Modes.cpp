@@ -28,10 +28,269 @@ Modes::Modes()//constructor
       cout << "Invalid input" << endl;
     }
   }
+  while(true)//asks which type of mode to run the simulation in
+  {
+    string choice2 = "";
+    cout << "Which kind of boundary mode will the simulation run in? : (classic)(doughnut)(mirror)" << endl;
+    cin >> choice2;
+    if(choice2 == "classic")
+    {
+
+      while(true) // ask which kind of pause to apply between Generations
+      {
+        string choice3 = "";
+        cout << "Do you want a pause between generations and to press [enter] to continue, or if it will all be outputted to a file? : (enter)(file)" << endl;
+        cin >> choice3;
+        if(choice3 == "enter")
+        {
+          while(true)
+          {
+            Classic();
+            DisplayGen();
+            if(Stable())
+            {
+              break;
+            }
+            swapMaps();
+            cout << "Press [enter] to see the next generation." << endl;
+            cin.ignore(); //ignores whatever is typed before [enter] is pressed
+          }
+          break; // exits the "Which pause" while loop
+        }
+        else if(choice3 == "file")
+        {
+          string name = "";
+          cout << "Enter the name for the file" << endl;
+          cin >> name;
+          fstream outputFile(name);
+          if(outputFile.is_open())
+          {
+            while(true)
+            {
+              Classic();
+              if(Stable())
+              {
+                break;
+              }
+              swapMaps();
+              numOfGenerations++; // keeps track of the number of Generations
+              outputFile << "Generation " << numOfGenerations << endl; // marks which genortion is being printed to the file
+              for(int i = 0; i < mapHeight - 1; i++)
+              {
+                for(int j = 0; j < mapWidth - 1; j++)
+                {
+                  if(mapB[i][j] == true)
+                  {
+                    outputFile << "X";
+                  }
+                  else
+                  {
+                  outputFile << "-";
+                  }
+                }
+                outputFile << endl;
+              }
+            }
+          }
+          outputFile.close();
+          break; // exits the "Which pause" while loop
+        }
+        else
+        {
+          cout << "Invalid input, please try again." << endl;
+        }
+      }
+
+      break; //exits the "Which boundary mode while loop"
+    }
+    else if(choice2 == "doughnut")
+    {
+      while(true) // ask which kind of pause to apply between Generations
+      {
+        string choice3 = "";
+        cout << "Do you want a pause between generations and to press [enter] to continue, or if it will all be outputted to a file? : (enter)(file)" << endl;
+        cin >> choice3;
+        if(choice3 == "enter")
+        {
+          while(true)
+          {
+            Doughnut();
+            DisplayGen();
+            if(Stable())
+            {
+              break;
+            }
+            swapMaps();
+            cout << "Press [enter] to see the next generation." << endl;
+            cin.ignore(); //ignores whatever is typed before [enter] is pressed
+          }
+          break; // exits the which pause while loop
+        }
+        else if(choice3 == "file")
+        {
+          string name = "";
+          cout << "Enter the name for the file" << endl;
+          cin >> name;
+          fstream outputFile(name);
+          if(outputFile.is_open())
+          {
+            while(true)
+            {
+
+              Doughnut();
+              if(Stable())
+              {
+                break;
+              }
+              swapMaps();
+              numOfGenerations++; // keeps track of the number of Generations
+              outputFile << "Generation " << numOfGenerations << endl; // marks which genortion is being printed to the file
+              for(int i = 0; i < mapHeight - 1; i++)
+              {
+                for(int j = 0; j < mapWidth - 1; j++) //fix th
+                {
+                  if(mapB[i][j] == true)
+                  {
+                    outputFile << "X";
+                  }
+                  else
+                  {
+                  outputFile << "-";
+                  }
+                }
+                outputFile << endl;
+              }
+            }
+          }
+          outputFile.close();
+          break; // exits the "which pause" while loop
+        }
+        else
+        {
+          cout << "Invalid input, please try again." << endl;
+        }
+      }
+      break; //exits the "Which boundary mode while loop"
+    }
+    else if(choice2 == "mirror")
+    {
+      while(true) // ask which kind of pause to apply between Generations
+      {
+        string choice3 = "";
+        cout << "Do you want a pause between generations and to press [enter] to continue, or if it will all be outputted to a file? : (enter)(file)" << endl;
+        cin >> choice3;
+        if(choice3 == "enter")
+        {
+          while(true)
+          {
+            Mirror();
+            DisplayGen();
+            if(Stable())
+            {
+              break;
+            }
+            swapMaps();
+            cout << "Press [enter] to see the next generation." << endl;
+            cin.ignore(); //ignores whatever is typed before [enter] is pressed
+          }
+          break; // exits the "which pause" while loop
+        }
+        else if(choice3 == "file")
+        {
+          string name = "";
+          cout << "Enter the name for the file" << endl;
+          cin >> name;
+          fstream outputFile(name);
+          if(outputFile.is_open())
+          {
+            while(true)
+            {
+              Mirror();
+              if(Stable())
+              {
+                break;
+              }
+              swapMaps();
+              numOfGenerations++; // keeps track of the number of Generations
+              outputFile << "Generation " << numOfGenerations << endl; // marks which genortion is being printed to the file
+              for(int i = 0; i < mapHeight - 1; i++)
+              {
+                for(int j = 0; j < mapWidth - 1; j++) //fix th
+                {
+                  if(mapB[i][j] == true)
+                  {
+                    outputFile << "X";
+                  }
+                  else
+                  {
+                  outputFile << "-";
+                  }
+                }
+                outputFile << endl;
+              }
+            }
+          }
+          outputFile.close();
+          break; // exits the "which pause" while loop
+        }
+        else
+        {
+          cout << "Invalid input, please try again." << endl;
+        }
+      }
+      break; //exits the "Which boundary mode while loop"
+    }
+    else
+    {
+      cout << "Invalid input, please try again." << endl;
+    }
+  }
 }
 Modes::~Modes()//destructor
 {
 
+}
+void Modes::DisplayGen()
+{
+  for(int i = 0; i < mapHeight - 1; i++)
+  {
+    for(int j = 0; j < mapWidth - 1; j++)
+    {
+      if(mapB[i][j] == true)
+      {
+        cout << "X";
+      }
+      else
+      {
+        cout << "-";
+      }
+    }
+    cout << endl;
+  }
+}
+bool Modes::Stable()
+{
+  for(int i = 0; i < mapHeight - 1; i++)
+  {
+    for(int j = 0; j < mapWidth - 1; j++)
+    {
+      if(mapA[i][j] != mapB[i][j])
+      {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+void Modes::swapMaps()
+{
+  for(int i = 0; i < mapHeight - 1; i++)
+  {
+    for(int j = 0; j < mapWidth - 1; j++)
+    {
+      mapA[i][j] = mapB[i][j];
+    }
+  }
 }
 void Modes::randomMap()// not done
 {
@@ -63,28 +322,24 @@ void Modes::randomMap()// not done
       cout << "invalid width, try again" << endl;
     }
   }
-
-
   cout << "Enter a decimal number for the population dencity that is greater than 0 and less than 1" << endl;
   double popDensity = 0.0;
   cin >> popDensity;
-  string mapA [mapHeight][mapWidth];
-  string mapB [mapHeight][mapWidth];
-
-  for(int i = 0; i < mapHeight; i++) // fills the map with
+  int cellCount = mapHeight * mapWidth * popDensity;
+  int randomHeight = 0;
+  int randomWidth = 0;
+  for(int i = 0; i < cellCount; i++) // fills the map with cells determined by the population dencity
   {
-    for(int j = 0; j < mapWidth; j++)
+    randomHeight = rand() % mapHeight-1;
+    randomWidth = rand() % mapWidth-1;
+
+    if(mapA[randomHeight][randomWidth] == false) // if random spot on the map is empty, fill it with a cell
     {
-      //chooses "X" or "~" based on probability
-      double random = rand() % 1;
-      if(random < popDensity)
-      {
-        mapA[i][j] = 'X';
-      }
-      else
-      {
-        mapA[i][j] = '~';
-      }
+      mapA[randomHeight][randomWidth] = true;
+    }
+    else // if spot is not empty then try again
+    {
+      i--;
     }
   }
 }
@@ -100,49 +355,58 @@ void Modes::provideMap() //takes the file name as an input and sets mapA to the 
   if(inputMap.is_open())
   {
     string line = "";
+    int lineCount = 0;
     while (getline(inputMap, line))
     {
-      if(mapHeight == 0)
+      if(lineCount == 0)
       {
         mapHeight = stoi(line);
       }
-      else if(mapWidth == 0)
+      else if(lineCount == 1)
       {
         mapWidth = stoi(line);
-        mapA [mapHeight][mapWidth];
-        mapB [mapHeight][mapWidth];
       }
       else
       {
-        for(int i = 0; i < mapHeight; i++)
+        for(int i = 0; i < line.length() - 1; i++)
         {
-          for(int j = 0; j < line.length(); j++)
+          if(line[i] == 'X') //saves the x as true
           {
-            mapA[i][j] = line[j]; //writes the map to the array
+            mapA[lineCount - 2][i] = true; //writes the map to the array
+          }
+          else
+          {
+            mapA[lineCount - 2][i] = false;
           }
         }
+
+
+
+
       }
+      lineCount++;
     }
   }
+  inputMap.close();
 }
-void Modes::Classic() // runs classic mode of Game of Life for 1 genoration
+void Modes::Classic() // runs classic mode of Game of Life for 1 Generation
 {
-  for(int i = 0; i < mapHeight; i++)
+  for(int i = 0; i < mapHeight - 1; i++)
   {
-    for(int j = 0; j < mapWidth; j++)
+    for(int j = 0; j < mapWidth - 1; j++)
     {
       //check for neighabors
       if(checkNeighborClassic(i,j) <= 1)
       {
-        mapB[i][j] = '~';
+        mapB[i][j] = false;
       }
       else if(checkNeighborClassic(i,j) == 3)
       {
-        mapB[i][j] = 'X';
+        mapB[i][j] = true;
       }
       else if(checkNeighborClassic(i,j) >= 4)
       {
-        mapB[i][j] = '~';
+        mapB[i][j] = false;
       }
     }
   }
@@ -151,22 +415,22 @@ void Modes::Classic() // runs classic mode of Game of Life for 1 genoration
 
 void Modes::Doughnut()
 {
-  for(int i = 0; i < mapHeight; i++)
+  for(int i = 0; i < mapHeight - 1; i++)
   {
-    for(int j = 0; j < mapWidth; j++)
+    for(int j = 0; j < mapWidth - 1; j++)
     {
       //check for neighabors
       if(checkNeighborDoughnut(i,j) <= 1)
       {
-        mapB[i][j] = '~';
+        mapB[i][j] = false;
       }
       else if(checkNeighborDoughnut(i,j) == 3)
       {
-        mapB[i][j] = 'X';
+        mapB[i][j] = true;
       }
       else if(checkNeighborDoughnut(i,j) >= 4)
       {
-        mapB[i][j] = '~';
+        mapB[i][j] = false;
       }
     }
   }
@@ -174,22 +438,22 @@ void Modes::Doughnut()
 
 void Modes::Mirror()
 {
-  for(int i = 0; i < mapHeight; i++)
+  for(int i = 0; i < mapHeight - 1; i++)
   {
-    for(int j = 0; j < mapWidth; j++)
+    for(int j = 0; j < mapWidth - 1; j++)
     {
       //check for neighabors
       if(checkNeighborMirror(i,j) <= 1)
       {
-        mapB[i][j] = '~';
+        mapB[i][j] = false;
       }
       else if(checkNeighborMirror(i,j) == 3)
       {
-        mapB[i][j] = 'X';
+        mapB[i][j] = true;
       }
       else if(checkNeighborMirror(i,j) >= 4)
       {
-        mapB[i][j] = '~';
+        mapB[i][j] = false;
       }
     }
   }
@@ -202,53 +466,53 @@ int Modes::checkNeighborClassic(int cellHeight, int cellWidth) // 0-1 neighbor =
   {
     if(cellWidth == 0)//check if the cell is at the top left corner
     {
-      if(mapB[cellHeight + 1][cellWidth] == 'X')//cell below
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell below
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+      if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
       {
         numNeighbor++;
       }
     }
     else if(cellWidth == mapWidth - 1)//check if the cell is at the top right corner
     {
-      if(mapB[cellHeight][cellWidth - 1] == 'X') //cell to the left
+      if(mapA[cellHeight][cellWidth - 1] == true) //cell to the left
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+      if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight + 1][cellWidth] == 'X')//cell below
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell below
       {
         numNeighbor++;
       }
     }
     else //cell is along the top wall of the map but not in a corner
     {
-      if(mapB[cellHeight][cellWidth - 1] == 'X') //cell to the left
+      if(mapA[cellHeight][cellWidth - 1] == true) //cell to the left
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+      if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+      if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
       {
         numNeighbor++;
       }
@@ -258,146 +522,687 @@ int Modes::checkNeighborClassic(int cellHeight, int cellWidth) // 0-1 neighbor =
   {
     if(cellWidth == 0)//check if the cell is at the bottom left corner
     {
-      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top right
+      if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top right
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
       {
         numNeighbor++;
       }
     }
     else if(cellWidth == mapWidth - 1)//checks if the cell is at the bottom right corner
     {
-      if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+      if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+      if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
       {
         numNeighbor++;
       }
     }
     else//cell is along the bottom of the map but not in a corner
     {
-      if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+      if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top right
+      if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top right
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
       {
         numNeighbor++;
       }
-      if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+      if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
       {
         numNeighbor++;
       }
     }
-    return numNeighbor;
+
   }
   else if(cellWidth == 0)//check if the cell is on the left wall
   {
-    if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+    if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+    if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top rIght
+    if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top rIght
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
     {
       numNeighbor++;
     }
   }
   else if(cellWidth == mapWidth - 1)//check if the celll is on the right wall
   {
-    if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+    if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+    if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+    if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
     {
       numNeighbor++;
     }
   }
   else //cell is not along any of the edges of the grid
   {
-    if(mapB[cellHeight][cellWidth - 1] == 'X')//cell to the left
+    if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight + 1][cellWidth - 1] == 'X')//cell to the bottom left
+    if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight + 1][cellWidth] == 'X')//cell to the bottom
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight + 1][cellWidth + 1] == 'X')//cell to the bottom right
+    if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight][cellWidth + 1] == 'X')//cell to the right
+    if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth + 1] == 'X')//cell to the top rIght
+    if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top rIght
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth] == 'X')//cell to the top
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
     {
       numNeighbor++;
     }
-    if(mapB[cellHeight - 1][cellWidth - 1] == 'X')//cell to the top left
+    if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
     {
       numNeighbor++;
     }
   }
+  return numNeighbor;
 }
+
 int Modes::checkNeighborDoughnut(int cellHeight, int cellWidth)
 {
-  
+  int numNeighbor = 0;// keeps track of the number of neighaboring cells
+  if(cellHeight == 0)//check if the cell is at the top of the grid
+  {
+    if(cellWidth == 0)//check if the cell is at the top left corner
+    {
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell below
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][cellWidth + 1] == true)//doughnut reflection of top right cell to bottom left cell next to corner
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][cellWidth] == true)//doughnut reflection of top cell to bottom left corner cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][mapWidth - 1] == true)//doughnut reflection of top left cell to bottom right corner cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][mapWidth - 1] == true)//doughnut reflection of left cell to right corner cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][mapWidth - 1] == true)//doughnut reflection of top left cell to next to top right corner cell
+      {
+        numNeighbor++;
+      }
+    }
+
+    else if(cellWidth == mapWidth - 1)//check if the cell is at the top right corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true) //cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell below
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][0] == true)//doughnut reflection of bottom right cell to left side cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][0] == true)//doughnut reflection of right cell to top left corner cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][0] == true)//doughnut reflection of top right cell to bottom left corner cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][mapWidth - 1] == true)//doughnut reflection of top cell to bottom right corner cell
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][cellWidth - 1] == true)//doughnut reflection of top left cell to next to bottom right corner cell
+      {
+        numNeighbor++;
+      }
+    }
+
+    else //cell is along the top wall of the map but not in a corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true) //cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][cellWidth + 1] == true)//doughnut reflection of top right cell to the bottom wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][cellWidth] == true)//doughnut reflection of top cell to the bottom wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[mapHeight - 1][cellWidth - 1] == true)//doughnut reflection of top left cell to the bottom wall
+      {
+        numNeighbor++;
+      }
+    }
+  }
+
+  else if(cellHeight == mapHeight - 1) //checks if cell is at the bottom of the grid
+  {
+    if(cellWidth == 0)//check if the cell is at the bottom left corner
+    {
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][mapWidth - 1] == true)//doughnut reflection of top left cell to the far right wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][mapWidth - 1] == true)//doughnut reflection of left cell to the right wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][mapWidth - 1] == true)//doughnut reflection of bottom left cell to the top right corner
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][0] == true)//doughnut reflection of bottom cell to the top left corner
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][cellWidth + 1] == true)//doughnut reflection of bottom right cell to the top wall
+      {
+        numNeighbor++;
+      }
+    }
+
+    else if(cellWidth == mapWidth - 1)//checks if the cell is at the bottom right corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][cellWidth - 1] == true)//doughnut reflection of bottom left cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][mapWidth - 1] == true)//doughnut reflection of bottom cell to the top right corner
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][0] == true)//doughnut reflection of bottom right cell to the top left corner
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][0] == true)//doughnut reflection of right cell to the left wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][0] == true)//doughnut reflection of top right cell to the left wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+      {
+        numNeighbor++;
+      }
+    }
+
+    else//cell is along the bottom of the map but not in a corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][cellWidth - 1] == true)//doughnut reflection of bottom left cell to the top wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][cellWidth] == true)//doughnut reflection of bottom cell to the top wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[0][cellWidth + 1] == true)//doughnut reflection of bottom right cell to the top wall
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+      {
+        numNeighbor++;
+      }
+    }
+
+  }
+  else if(cellWidth == 0)//check if the cell is on the left wall
+  {
+    if(mapA[cellHeight][mapWidth - 1] == true)//doughnut reflection of left cell to the right wall
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][mapWidth - 1] == true)//doughnut reflection of bottom left cell to the right wall
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][mapWidth - 1] == true)//doughnut reflection of top left cell to the right wall
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top rIght
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+    {
+      numNeighbor++;
+    }
+  }
+  else if(cellWidth == mapWidth - 1)//check if the cell is on the right wall
+  {
+    if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][0] == true)//doughnut reflection of bottom right cell to the left wall
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight][0] == true)//doughnut reflection of right cell to the left wall
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][0] == true)//doughnut reflection of top right cell to the left wall
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+    {
+      numNeighbor++;
+    }
+  }
+  else //cell is not along any of the edges of the grid
+  {
+    if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top rIght
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+    {
+      numNeighbor++;
+    }
+  }
+  return numNeighbor;
 }
 int Modes::checkNeighborMirror(int cellHeight, int cellWidth)
 {
+  int numNeighbor = 0;// keeps track of the number of neighaboring cells
+  if(cellHeight == 0)//check if the cell is at the top of the grid
+  {
+    if(cellWidth == 0)//check if the cell is at the top left corner
+    {
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell below
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[0][0] == true)//checks if current cell is occupied
+      {
+        numNeighbor += 3;
+      }
+    }
+    else if(cellWidth == mapWidth - 1)//check if the cell is at the top right corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true) //cell to the left
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell below
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[0][mapWidth - 1] == true)// checks if current cell is occupied
+      {
+        numNeighbor += 3;
+      }
+    }
+    else //cell is along the top wall of the map but not in a corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true) //cell to the left
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor += 2;
+      }
+    }
+  }
+  else if(cellHeight == mapHeight - 1) //checks if cell is at the bottom of the grid
+  {
+    if(cellWidth == 0)//check if the cell is at the bottom left corner
+    {
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[mapHeight - 1][0] == true) //checks if current cell is occupied
+      {
+        numNeighbor += 3;
+      }
+    }
+    else if(cellWidth == mapWidth - 1)//checks if the cell is at the bottom right corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[mapHeight - 1][mapWidth - 1] == true)//check if current cell is occupied
+      {
+        numNeighbor += 3;
+      }
+    }
+    else//cell is along the bottom of the map but not in a corner
+    {
+      if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+      {
+        numNeighbor += 2;
+      }
+      if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top right
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+      {
+        numNeighbor++;
+      }
+      if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+      {
+        numNeighbor++;
+      }
+    }
 
+  }
+  else if(cellWidth == 0)//check if the cell is on the left wall
+  {
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+    {
+      numNeighbor += 2;
+    }
+    if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top rIght
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+    {
+      numNeighbor += 2;
+    }
+  }
+  else if(cellWidth == mapWidth - 1)//check if the celll is on the right wall
+  {
+    if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+    {
+      numNeighbor += 2;
+    }
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+    {
+      numNeighbor += 2;
+    }
+    if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+    {
+      numNeighbor++;
+    }
+  }
+  else //cell is not along any of the edges of the grid
+  {
+    if(mapA[cellHeight][cellWidth - 1] == true)//cell to the left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth - 1] == true)//cell to the bottom left
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth] == true)//cell to the bottom
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight + 1][cellWidth + 1] == true)//cell to the bottom right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight][cellWidth + 1] == true)//cell to the right
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth + 1] == true)//cell to the top rIght
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth] == true)//cell to the top
+    {
+      numNeighbor++;
+    }
+    if(mapA[cellHeight - 1][cellWidth - 1] == true)//cell to the top left
+    {
+      numNeighbor++;
+    }
+  }
+  return numNeighbor;
 }
